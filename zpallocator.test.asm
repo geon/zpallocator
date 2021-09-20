@@ -17,4 +17,9 @@
 // .eval deallocateZpByte($fb)
 // .errorif true, "Subsequent deallocations of the same address should fail."
 
+// .var word = allocateZpWord()
+// .eval deallocateZpByte(word)
+// .eval deallocateZpByte(word+1)
+// .errorif true, "Allocating a word alloctes 2 adjecent bytes."
+
 .print "All compile time tests passed."

@@ -17,6 +17,18 @@
 	.return address
 }
 
+.function @allocateZpWord() {
+	.for(var i=0; i<256; i+=2) {
+		.if(freeZpAddresses.containsKey(i) && freeZpAddresses.containsKey(i+1)) {
+			.eval freeZpAddresses.remove(i)
+			.eval freeZpAddresses.remove(i+1)
+			.return i
+		}
+	}
+
+	.errorif true, "No free words available in zero page."
+}
+
 .function @allocateSpecificZpByte(requestedAddress) {
 	.errorif !freeZpAddresses.containsKey(requestedAddress), "Address $"+toHexString(requestedAddress)+" is taken."
 	.eval freeZpAddresses.remove(requestedAddress)
