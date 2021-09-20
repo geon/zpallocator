@@ -11,10 +11,14 @@
 .eval allocateSpecificZpByte($01)
 
 .function @allocateZpByte() {
-	.var address = freeZpAddresses.keys().get(0).asNumber()
-	.eval freeZpAddresses.remove(address)
-	.print "Allocated $"+toHexString(address)
-	.return address
+	.for(var i=255; i>=0; i-=1) {
+		.if(freeZpAddresses.containsKey(i)) {
+			.eval freeZpAddresses.remove(i)
+			.return i
+		}
+	}
+
+	.errorif true, "No free bytes available in zero page."
 }
 
 .function @allocateZpWord() {
