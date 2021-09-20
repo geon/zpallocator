@@ -3,21 +3,24 @@
 
 .var freeZpAddresses
 
-.var hardwiredPortRegisters = List().add($00, $01)
+.const @hardwiredPortRegisters = List().add($00, $01).lock()
 
-.function @zpAllocatorInit() {
+.function @zpAllocatorInit(addressLists) {
 	.eval freeZpAddresses = Hashtable()
 
 	.for(var i=0; i<256; i++) {
 		.eval freeZpAddresses.put(i, true)
 	}
 
-	.eval reserveUnsafeAddresses(hardwiredPortRegisters)
+	.eval reserveUnsafeAddresses(addressLists)
 }
 
-.function reserveUnsafeAddresses(addressList) {
-	.for(var i=0; i<addressList.size(); i++) {
-		.eval allocateSpecificZpByte(addressList.get(i))
+.function reserveUnsafeAddresses(addressLists) {
+	.for(var j=0; j<addressLists.size(); j++) {
+		.var addressList = addressLists.get(j)
+		.for(var i=0; i<addressList.size(); i++) {
+			.eval allocateSpecificZpByte(addressList.get(i))
+		}
 	}
 }
 

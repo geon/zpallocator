@@ -1,6 +1,7 @@
 #import "zpallocator.asm"
 
-.eval zpAllocatorInit()
+.eval zpAllocatorInit(List().add(hardwiredPortRegisters))
+
 .var A = allocateZpByte()
 .var B = allocateZpByte()
 .assert "A and B should be distinct.", A!=B, true 
