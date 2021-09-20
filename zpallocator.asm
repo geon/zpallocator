@@ -3,6 +3,8 @@
 
 .var freeZpAddresses
 
+.var hardwiredPortRegisters = List().add($00, $01)
+
 .function @zpAllocatorInit() {
 	.eval freeZpAddresses = Hashtable()
 
@@ -10,10 +12,13 @@
 		.eval freeZpAddresses.put(i, true)
 	}
 
-	// Allocate unsafe zp addresses.
-	// Hardwired port registers
-	.eval allocateSpecificZpByte($00)
-	.eval allocateSpecificZpByte($01)
+	.eval reserveUnsafeAddresses(hardwiredPortRegisters)
+}
+
+.function reserveUnsafeAddresses(addressList) {
+	.for(var i=0; i<addressList.size(); i++) {
+		.eval allocateSpecificZpByte(addressList.get(i))
+	}
 }
 
 .function @allocateZpByte() {
