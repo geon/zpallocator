@@ -1,27 +1,21 @@
 #import "zpallocator.asm"
 
 .eval zpAllocatorInit()
-
 .var A = allocateZpByte()
 .var B = allocateZpByte()
-.errorif A==B, "A and B should be distinct."
+.assert "A and B should be distinct.", A!=B, true 
 
 .var zpfb = allocateSpecificZpByte($fb)
-.errorif zpfb!=$fb, "It should be possible to allocate specific ZP bytes."
+.assert "It should be possible to allocate specific ZP bytes.", toHexString(zpfb), toHexString($fb)
 
-// .var zpfb2 = allocateSpecificZpByte($fb)
-// .errorif zpfb2==$fb, "Subsequent allocations of the same address should fail."
+.asserterror "Subsequent allocations of the same address should fail.", allocateSpecificZpByte($fb)
 
 .eval deallocateZpByte($fb)
 .var zpfb3 = allocateSpecificZpByte($fb)
-.errorif zpfb3!=$fb, "After deallocation, addresses should be free again."
+.assert "After deallocation, addresses should be free again.", toHexString(zpfb3), toHexString($fb)
 
-// .eval deallocateZpByte($fb)
-// .errorif true, "Subsequent deallocations of the same address should fail."
+.eval deallocateZpByte(zpfb3)
+.asserterror "Double deallocations of the same address should fail.", deallocateZpByte(zpfb3)
 
-// .var word = allocateZpWord()
-// .eval deallocateZpByte(word)
-// .eval deallocateZpByte(word+1)
-// .errorif true, "Allocating a word alloctes 2 adjecent bytes."
-
-.print "All compile time tests passed."
+.var word = allocateZpWord()
+.assert "Allocating a word alloctes 2 adjecent bytes.", deallocateZpByte(word), deallocateZpByte(word+1)
