@@ -7,4 +7,7 @@
 .var zpfb = allocateSpecificZpByte($fb)
 .errorif zpfb!=$fb, "It should be possible to allocate specific ZP bytes."
 
+// .var zpfb2 = allocateSpecificZpByte($fb)
+// .errorif zpfb2==$fb, "Subsequent allocations of the same address should fail."
+
 .print "All compile time tests passed."
