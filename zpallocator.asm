@@ -5,6 +5,10 @@
 .for(var i=0; i<256; i++) {
 	.eval freeZpAddresses.put(i, true)
 }
+// Allocate unsafe zp addresses.
+// Hardwired port registers
+.eval allocateSpecificZpByte($00)
+.eval allocateSpecificZpByte($01)
 
 .function @allocateZpByte() {
 	.var address = freeZpAddresses.keys().get(0).asNumber()
