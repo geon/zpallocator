@@ -5,3 +5,7 @@
 .function @allocateZpByte() {
 	.return zpAddress++
 }
+
+.function @allocateSpecificZpByte(requestedAddress) {
+	.return requestedAddress
+}
