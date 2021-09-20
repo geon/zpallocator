@@ -24,5 +24,6 @@
 }
 
 .function @deallocateZpByte(freeAddress) {
+	.errorif freeZpAddresses.containsKey(freeAddress), "Address $"+toHexString(freeAddress)+" is aldready free."
 	.eval freeZpAddresses.put(freeAddress, true)
 }

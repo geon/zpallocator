@@ -14,4 +14,7 @@
 .var zpfb3 = allocateSpecificZpByte($fb)
 .errorif zpfb3!=$fb, "After deallocation, addresses should be free again."
 
+// .eval deallocateZpByte($fb)
+// .errorif true, "Subsequent deallocations of the same address should fail."
+
 .print "All compile time tests passed."
