@@ -13,8 +13,7 @@
 .function @allocateZpByte() {
 	.for(var i=255; i>=0; i-=1) {
 		.if(freeZpAddresses.containsKey(i)) {
-			.eval freeZpAddresses.remove(i)
-			.return i
+			.return @allocateSpecificZpByte(i)
 		}
 	}
 
@@ -24,9 +23,9 @@
 .function @allocateZpWord() {
 	.for(var i=0; i<256; i+=2) {
 		.if(freeZpAddresses.containsKey(i) && freeZpAddresses.containsKey(i+1)) {
-			.eval freeZpAddresses.remove(i)
-			.eval freeZpAddresses.remove(i+1)
-			.return i
+			.var lowByte = @allocateSpecificZpByte(i)
+			.eval @allocateSpecificZpByte(i+1)
+			.return lowByte
 		}
 	}
 
