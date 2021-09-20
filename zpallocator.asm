@@ -22,3 +22,7 @@
 	.eval freeZpAddresses.remove(requestedAddress)
 	.return requestedAddress
 }
+
+.function @deallocateZpByte(freeAddress) {
+	.eval freeZpAddresses.put(freeAddress, true)
+}

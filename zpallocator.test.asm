@@ -10,4 +10,8 @@
 // .var zpfb2 = allocateSpecificZpByte($fb)
 // .errorif zpfb2==$fb, "Subsequent allocations of the same address should fail."
 
+.eval deallocateZpByte($fb)
+.var zpfb3 = allocateSpecificZpByte($fb)
+.errorif zpfb3!=$fb, "After deallocation, addresses should be free again."
+
 .print "All compile time tests passed."
