@@ -1,5 +1,7 @@
 #import "zpallocator.asm"
 
+.eval zpAllocatorInit()
+
 .var A = allocateZpByte()
 .var B = allocateZpByte()
 .errorif A==B, "A and B should be distinct."
